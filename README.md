@@ -1,7 +1,7 @@
 # Твои Платежи, интеграция на Python
 ![](https://repository-images.githubusercontent.com/638835276/ff494b04-d65b-4843-8759-e85c689a7e80)
 
-## Версия Алфа v0.1
+## Версия Альфа v0.1
 ![](https://github.com/yourpayments/python-api-client/blob/main/ypmn-python-client.png)
 
 Этот репозиторий сейчас содержит минимальный пример интеграции: 
