@@ -2,13 +2,13 @@
 ![](https://repository-images.githubusercontent.com/638835276/ff494b04-d65b-4843-8759-e85c689a7e80)
 
 ## Версия Альфа v0.1
-![](https://github.com/yourpayments/python-api-client/blob/main/ypmn-python-client.png)
-
 Этот репозиторий сейчас содержит минимальный пример интеграции: 
 - Расчёт подписи
 - Отправку запроса на авторизацию платежа
 
 На его основе можно сделать все остальные методы. Они будут появляться в этом репозитории постепенно, с новыми версиями.
+
+![](https://github.com/yourpayments/python-api-client/blob/main/ypmn-python-client.png)
 
 ## Ссылки
 - [Основной сайт НКО "Твои Платежи"](https://YPMN.ru/)
