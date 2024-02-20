@@ -1,4 +1,4 @@
-from classes import *
+from ypmn_classes import *
 from random import randint
 import json
 
