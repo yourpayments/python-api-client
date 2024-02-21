@@ -4,27 +4,54 @@ import hashlib
 import hmac
 import requests
 from random import randint
+import json
 
         
 class YPMNApi:
-    def __init__(self):
-        self.PAYU_SECRET_KEY = "SECRET_KEY" # Ключ API
+
+    """
+    Класс в который входят все основные функции:
+    1) data_time() - функция формирования даты, необходима для формирования подписи 
+        - не принимает аргументов на вход
+    2) calcMD5(body) - функция формирования контрольной суммы MD5, необходима для формирования подписи 
+        - принимает на вход аргумент body, в котором храниться тело запроса
+    3) calcstrMD5(hashing_string, REQUEST_DATE) - функция формирования строки для хэширования, необходима для формирования подписи 
+        - принимает на вход аргумент hashing_string, в котором храниться результат выполнения функции calcMD5()
+        - принимает на вход аргумент REQUEST_DATE, в котором храниться результат выполнения функции data_time()
+    4) calc_signature(md5_hash2) - функция формирования подписи, необходимо указывать в заголовке запроса 
+        - принимает на вход аргумент md5_hash2, в котором храниться результат выполнения функции calcstrMD5()
+    5) generate_headers(API_SIGNATURE, REQUEST_DATE) - функция формирования заголовка запроса 
+        - принимает на вход аргумент API_SIGNATURE, в котором храниться результат выполнения функции calc_signature()
+        - принимает на вход аргумент REQUEST_DATE, в котором храниться результат выполнения функции data_time()
+    6) функция отправки запроса на авторизацию - fun_authorize(headers, body)
+        - принимает на вход аргумент headers, в котором храниться результат выполнения функции generate_headers()
+        - принимает на вход аргумент body, в котором храниться тело запроса
+    7) функция отправки запроса на списание - fun_capture()
+    """
+    
+    request_method: str
+
+
+    def __init__(self, request_method):
+        self.PAYU_SECRET_KEY = "SECRET_KEY" # Ключ API 
         self.PAYU_MERCHANT_CODE = "CC1" # Код мерчанта
-        self.request_method = "POST/api/v4/payments/authorize"
+        self.request_method = request_method
         self.HOST_BASE_URL = "https://sandbox.ypmn.ru" # test EndPoint
         #self.HOST_BASE_URL = "https://secure.ypmn.ru" # prod EndPoint
        
 
-        ##формирование даты
+    ##формирование даты
     def data_time(self):
         today = datetime.now().now().astimezone().replace(microsecond=0).isoformat()
         REQUEST_DATE = str(today)
         return REQUEST_DATE
     
+
     ##формирование контрольной суммы MD5
     def calcMD5(self, body):
         md5_hash = hashlib.md5(str(body).encode('utf-8')).hexdigest()
         return md5_hash
+
 
     ##формирование строки для хэширования
     def calcstrMD5(self, hashing_string, REQUEST_DATE):
@@ -32,11 +59,13 @@ class YPMNApi:
         md5_hash2 = md5_hash2.encode('utf-8')
         return md5_hash2
     
-    ##формирование signature, sha256
+
+    ##формирование подписи, используется sha256
     def calc_signature(self, md5_hash2):
         API_SIGNATURE = hmac.new(self.PAYU_SECRET_KEY.encode('utf-8'), msg=md5_hash2, digestmod=hashlib.sha256).hexdigest()
         return API_SIGNATURE
     
+
     ##формирование заголовка запроса
     def generate_headers(self, API_SIGNATURE, REQUEST_DATE):
         headers = {
@@ -48,20 +77,55 @@ class YPMNApi:
         }
         return headers
     
+
+    ##отправка запроса на авторизацию
     def fun_authorize(self, headers, body):
-        url = self.HOST_BASE_URL + '/api/v4/payments/authorize'
-        response = requests.post(url, data=body, headers=headers, timeout=10)
-        response_dict = response.json()
+        try:
+            url = self.HOST_BASE_URL + '/api/v4/payments/authorize'
+            response = requests.post(url, data=body, headers=headers, timeout=10)
+            response_dict = response.json()
+
+            # Очищаем и записываем ответ API в JSON-файл
+            with open('ypmn_api_response.json', 'w') as file:
+                file.write('')
+                json.dump(response_dict, file, indent=4)
+
+            return response_dict
+        except requests.exceptions.RequestException as e:
+            print("Произошла ошибка при выполнении запроса:", e)
+
+            return None
+
+
+    ##отправка запроса на списание
+    def fun_capture(self, headers, body):
+        try:
+            url = self.HOST_BASE_URL + '/api/v4/payments/capture'
+            response = requests.post(url, data=body, headers=headers, timeout=10)
+            response_dict = response.json()
         
-        return response_dict
+            return response_dict
+        except requests.exceptions.RequestException as e:
+            print("Произошла ошибка при выполнении запроса:", e)
+
+            return None
+    
+#print(YPMNApi.__doc__)
 
 
 class CardDetails:
+
+    """
+    Класс создающий блок cardDetails, необходим для генерации тела запроса на авторизацию с карточными данными
+    В блоке входит CVV карты, срок действия карты разделен на месяц и год, номер карты и держатель карты
+    """
+    
     cvv: int
     expiry_month: str
     expiry_year: int
     number: str
     owner: str
+
 
     def __init__(
             self, 
@@ -90,15 +154,24 @@ class CardDetails:
             "cvv": self.cvv,
             "owner": self.owner
         }
+    
+#print(CardDetails.__doc__)
+
 
 class AuthorizationCard:
+
+    """
+    Класс создающий блок authorization, необходим для генерации тела запроса на авторизацию с карточными данными
+    В блок входят метод оплаты картой, который прописан по умолчанию, и результат функции to_dict() класса CardDetails 
+    """
+
     card_details: CardDetails
     payment_method: str
 
     def __init__(
             self, 
             card_details: CardDetails = None, 
-            payment_method: str = ""
+            payment_method: str = "CCVISAMC"
             ) -> None:
         
         self.card_details = card_details if card_details is not None else CardDetails()
@@ -113,9 +186,17 @@ class AuthorizationCard:
             "cardDetails": self.card_details.to_dict()
             
         }    
+
+#print(AuthorizationCard.__doc__)
     
 
 class paymentPageOptions:
+
+    """
+    Класс создающий блок paymentPageOptions, необходим для генерации тела запроса на авторизацию с платежной страницей
+    В блок входит настройка срока действия платежной страницы, измеряется в минутах
+    """
+
     order_timeout: str
 
     def __init__(
@@ -131,16 +212,25 @@ class paymentPageOptions:
             
         } 
 
+#print(paymentPageOptions.__doc__)
+
 
 class AuthorizationPP:
-    payment_method: str 
+
+    """
+    Класс создающий блок authorization, необходим для генерации тела запроса на авторизацию с платежной страницей
+    В блок входят метод оплаты картой и параметр использования платежной страницы, которые прописаны по умолчанию, 
+    и результат функции to_dict() класса paymentPageOptionsу
+    """
+
+    payment_method: str = "CCVISAMC"
     use_paymen_page: str = "YES"
     payment_page_options: object
 
     def __init__(
             self, 
-            payment_method: str = "",
-            use_paymen_page: str = "",
+            payment_method: str = "CCVISAMC",
+            use_paymen_page: str = "YES",
             payment_page_options: paymentPageOptions = None
             ) -> None:
             
@@ -158,9 +248,17 @@ class AuthorizationPP:
             "paymentPageOptions": paymentPageOptions().to_dict()
                 
         } 
-    
+
+#print(AuthorizationPP.__doc__)
+
 
 class merchantToken:
+
+    """
+    Класс создающий блок merchantToken, необходим для генерации тела запроса на авторизацию с использованием токена
+    В блок входят хэш токена карты, cvv карты и держатель карты
+    """
+
     token_hash: str
     cvv: int
     owner: str
@@ -187,15 +285,23 @@ class merchantToken:
                 
         } 
 
+#print(merchantToken.__doc__)
+
 
 class AuthorizationToken:
+
+    """
+    Класс создающий блок authorization, необходим для генерации тела запроса на авторизацию с использованием токена
+    В блок входят метод оплаты картой, который прописан по умолчанию, и результат функции to_dict() класса merchantToken
+    """
+    
     payment_method: str 
     merch_token: object
 
     def __init__(
             self, 
-            payment_method: str = "",
-            merch_token: paymentPageOptions = None
+            payment_method: str = "CCVISAMC",
+            merch_token: merchantToken = None
             ) -> None:
             
         self.merch_token = merch_token if merch_token is not None else merchantToken().to_dict()
@@ -210,20 +316,19 @@ class AuthorizationToken:
             "merchantToken": self.merch_token
                 
         } 
-
-
-
-
-
-
-
-
-
-
-
+    
+#print(AuthorizationToken.__doc__)
 
 
 class IdentityDocument:
+
+    """
+    Данный блок не является обязательным, он будет закомичен в примерах кода авторизаций
+    Класс создающий блок identityDocument, необходим для генерации тела запроса на авторизацию
+    (общий для всех вариаций блока авторизации)
+    В блок входят идентификационные данные, к примеру серия и номер паспорта и наименование документа
+    """
+
     number: int
     type: str
 
@@ -245,9 +350,18 @@ class IdentityDocument:
             "type": self.type
             
         }  
+#print(IdentityDocument.__doc__)    
+
 
 
 class Billing:
+
+    """
+    Класс создающий блок billing, необходим для генерации тела запроса на авторизацию
+    (общий для всех вариаций блока авторизации)
+    Обязательные параметры, которые должны быть не путстые first_name, last_name, email, phone, country_code. Остальные по желанию
+    """
+
     address_line1: str = ""
     address_line2: str = ""
     city: str = ""
@@ -321,9 +435,19 @@ class Billing:
             "identityDocument": self.identity_document
                         
         }
+    
+#print(Billing.__doc__)    
 
 
 class Delivery:
+
+    """
+    Данный блок не является обязательным, он будет закомичен в примерах кода авторизаций  
+    Класс создающий блок delivery, необходим для генерации тела запроса на авторизацию
+    (общий для всех вариаций блока авторизации)
+
+    """
+
     address_line1: str
     address_line2: str
     city: str
@@ -377,9 +501,18 @@ class Delivery:
             "email": self.email
 
         }
+    
+#print(Delivery.__doc__)      
 
 
 class Client:
+
+    """
+    Класс создающий блок client, необходим для генерации тела запроса на авторизацию
+    (общий для всех вариаций блока авторизации)
+
+    """
+
     billing: Billing
     client_ip: str
     client_time: str
@@ -411,9 +544,17 @@ class Client:
             
         }
 
+#print(Client.__doc__)
 
 
 class Product:
+
+    """
+    Класс создающий блок product, необходим для генерации тела запроса на авторизацию
+    (общий для всех вариаций блока авторизации)
+
+    """
+
     additional_details: str
     name: str
     quantity: int
@@ -449,9 +590,18 @@ class Product:
             "additionalDetails": self.additional_details
             
         }
+    
+#print(Product.__doc__)    
 
 
-class PaymentRequest:
+class AuthRequest:
+
+    """
+    Класс создающий тело запроса, необходим для генерации тела запроса на авторизацию
+    (общий для всех вариаций блока авторизации)
+
+    """
+
     authorization: object
     client: Client
     currency: str
@@ -489,6 +639,53 @@ class PaymentRequest:
             "products": self.products
             
         }
+    
+#print(AuthRequest.__doc__)    
+
+
+class CaptureRequest:
+
+    """
+    Класс создающий тело запроса, необходим для генерации тела запроса на списание
+    (общий для всех вариаций блока авторизации)
+    """
+
+    payuReference: str
+    original_amount: float
+    amount: float
+
+    def __init__(
+            self, 
+            payuReference: str = "", 
+            original_amount: float = 0,
+            amount: float = 0
+            ) -> None:
+        
+        # Открываем файл с ответом API для чтения
+        with open('ypmn_api_response.json', 'r') as file:
+            data = json.load(file)
+
+        # Извлекаем значения по ключам "payuPaymentReference" и "amount"
+        payuReference = data.get('payuPaymentReference')
+        originalAmount = data.get('amount')
+        
+        self.payuReference = payuReference
+        self.original_amount = originalAmount
+        self.amount = amount
+
+    def display_info(self):
+        print(self)
 
 
 
+
+    def to_dict(self):
+        return {
+            "payuPaymentReference": self.payuReference,
+            "originalAmount": self.original_amount,
+            "amount": self.amount,
+            "currency": "RUB"
+            
+        }
+
+#print(AuthRequest.__doc__) 
