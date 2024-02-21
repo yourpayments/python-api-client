@@ -8,7 +8,7 @@ from random import randint
         
 class YPMNApi:
     def __init__(self):
-        self.PAYU_SECRET_KEY = "SECRET_KEY" # Ключ API 
+        self.PAYU_SECRET_KEY = "SECRET_KEY" # Ключ API
         self.PAYU_MERCHANT_CODE = "CC1" # Код мерчанта
         self.request_method = "POST/api/v4/payments/authorize"
         self.HOST_BASE_URL = "https://sandbox.ypmn.ru" # test EndPoint
