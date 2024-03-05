@@ -182,9 +182,9 @@ class YPMNApi:
     ##отправка запроса на создание токена
     def request_create_token(self, ref):
         try:
-            body = {
-                "payuPaymentReference": ref
-            }
+            body = '''{
+                "payuPaymentReference": ''' + str(ref) + '''
+            }'''
             RequestMethodType = "POST"
             RequestMethod = "/api/v4/token"
             RequestStr = RequestMethodType + RequestMethod
