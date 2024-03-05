@@ -1,0 +1,7 @@
+{
+  "SecretKey": "%r06+nT23t?n]y9[1?0!",
+  "MerchantCode": "sgrashch",
+  "Currency": "RUB",
+  "CountryCode": "RU",
+  "returnURL": "https://sandbox.ypmn.ru/backend/simulators/return.php"
+}
