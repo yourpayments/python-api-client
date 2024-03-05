@@ -1,0 +1,16 @@
+{
+    "payuPaymentReference": "2517656",
+    "status": "SUCCESS",
+    "paymentResult": {
+        "payuResponseCode": "AUTHORIZED",
+        "authCode": 344725,
+        "rrn": "5281299969585"
+    },
+    "message": "Authorized.",
+    "merchantPaymentReference": "7374",
+    "code": 200,
+    "amount": "1500",
+    "authorization": {
+        "authorized": "PENDING"
+    }
+}
