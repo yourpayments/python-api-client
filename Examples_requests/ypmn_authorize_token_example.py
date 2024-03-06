@@ -10,9 +10,9 @@ MERCH_ORDER_REF = str(randint(1, 10000000))
 token = merchantToken()
 #print(merchantToken.__doc__)
 
-token.token_hash = "a1e8c1d3bba2461890d4f6fd7a64e946"
+token.token_hash = "217eaff440a900f1259ee66dcbff4097"
 token.cvv = 123
-token.owner = "123 123"
+token.owner = "edsvsdv ewafa"
 #print(token.to_dict())
 
 

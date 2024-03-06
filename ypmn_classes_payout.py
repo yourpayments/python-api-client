@@ -53,6 +53,26 @@ class Card:
             
         }
         return {key: value for key, value in card_dict.items() if value} 
+    
+class Token:
+
+
+    token_hash: str
+
+    def __init__(
+            self, 
+            token_hash: str = ""
+
+            ) -> None:
+        
+        self.token_hash = token_hash
+    
+    def to_dict(self):
+        token_dict = {
+            "tokenHash": self.token_hash
+            
+        }
+        return {key: value for key, value in token_dict.items() if value} 
 
 
 class Recipient:
@@ -128,6 +148,34 @@ class Destination:
 
         }
         return {key: value for key, value in destination_dict.items() if value}
+    
+
+class DestinationToken:
+
+
+
+    token: Token
+    recipient: Recipient
+
+    def __init__(
+            self, 
+            token: Token = None,
+            recipient: Recipient = ""
+
+            ) -> None:
+        
+        self.type = type
+        self.token = Token
+        self.recipient = Recipient
+
+    def to_dict(self):
+        destination_token_dict = {
+            "type": "token",
+            "token": self.token,
+            "recipient": self.recipient
+
+        }
+        return {key: value for key, value in destination_token_dict.items() if value}
 
 
 class Sender:
