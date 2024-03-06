@@ -82,7 +82,7 @@
 13) Файл ypmn_cancel_token_example.py структура следующая:
 - отправка запроса на удаление токена по API 
 
-14) Файл ypmn_get_token_info_example
+14) Файл ypmn_get_token_info_example.py структура следующая:
 - отправка запроса информации о токене по API 
 
 
