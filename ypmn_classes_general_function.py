@@ -36,6 +36,8 @@ class YPMNApi:
         - не принимает аргументов на вход
     11) request_payout(body) - функция отправки запроса на выплату
         - принимает на вход аргумент body, что является телом запроса
+    12) request_cancel_token() - функция отправки запроса на удаление токена
+        - не принимает аргументов на вход
     """
 
 
@@ -208,6 +210,26 @@ class YPMNApi:
             header = self.generate_headers(API_SIGNATURE)
             url = self.HOST_BASE_URL + RequestMethod
             response = requests.get(url, headers=header, timeout=10)
+            response_dict = response.json()
+        
+            return response_dict
+        except requests.exceptions.RequestException as e:
+            print("Произошла ошибка при выполнении запроса:", e)
+
+            return None
+        
+
+        ##отправка запроса на удаление токена
+    def request_cancel_token(self, token_hash):
+        try:
+            body = ""
+            RequestMethodType = "DELETE"
+            RequestMethod = f"/api/v4/token/{token_hash}"
+            RequestStr = RequestMethodType + RequestMethod
+            API_SIGNATURE = self.generate_signature(body, RequestStr)
+            header = self.generate_headers(API_SIGNATURE)
+            url = self.HOST_BASE_URL + RequestMethod
+            response = requests.delete(url, headers=header, timeout=10)
             response_dict = response.json()
         
             return response_dict
