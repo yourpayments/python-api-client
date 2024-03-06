@@ -79,6 +79,9 @@
 12) Файл ypmn_get_status_example.py структура следующая:
 - отправка запроса на получение статуса транзакции по API 
 
+13) Файл ypmn_cancel_token_example.py структура следующая:
+- отправка запроса на удаление токена по API 
+
 ![](https://github.com/yourpayments/python-api-client/blob/main/ypmn-python-client.png)
 
 ## Ссылки
