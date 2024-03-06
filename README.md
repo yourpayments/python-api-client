@@ -82,6 +82,10 @@
 13) Файл ypmn_cancel_token_example.py структура следующая:
 - отправка запроса на удаление токена по API 
 
+14) Файл ypmn_get_token_info_example
+- отправка запроса информации о токене по API 
+
+
 ![](https://github.com/yourpayments/python-api-client/blob/main/ypmn-python-client.png)
 
 ## Ссылки

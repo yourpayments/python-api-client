@@ -26,18 +26,21 @@ class YPMNApi:
         - принимает на вход аргумент API_SIGNATURE, в котором храниться результат выполнения функции calc_signature()
     6) request_authorize(body) - функция отправки запроса на авторизацию 
         - принимает на вход аргумент body, что является телом запроса
-    7) request_create_token(body) - функция отправки запроса на создание токена 
-        - принимает на вход аргумент body, что является телом запроса
+    7) request_create_token(ref) - функция отправки запроса на создание токена 
+        - принимает на вход аргумент ref, что является номером транзакции
     8) request_refunds(body) - функция отправки запроса на возврат ДС 
         - принимает на вход аргумент body, что является телом запроса
     9) request_capture(body) - функция отправки запроса на списание 
         - принимает на вход аргумент body, что является телом запроса
-    10) request_status() - функция отправки запроса статуса
-        - не принимает аргументов на вход
+    10) request_status(transaction_number) - функция отправки запроса статуса
+        - принимает на вход аргументов transaction_number
     11) request_payout(body) - функция отправки запроса на выплату
         - принимает на вход аргумент body, что является телом запроса
-    12) request_cancel_token() - функция отправки запроса на удаление токена
-        - не принимает аргументов на вход
+    12) request_cancel_token(token_hash) - функция отправки запроса на удаление токена
+        - принимает на вход аргументов token_hash, что является номером токена
+    13) request_token_info(token_hash) - функция отправки запроса на получение информации по токену
+        - принимает на вход аргументов token_hash, что является номером токена
+
     """
 
 
@@ -238,5 +241,24 @@ class YPMNApi:
 
             return None
     
+
+    def request_token_info(self, token_hash):
+        try:
+            body = ""
+            RequestMethodType = "GET"
+            RequestMethod = f"/api/v4/token/{token_hash}"
+            RequestStr = RequestMethodType + RequestMethod
+            API_SIGNATURE = self.generate_signature(body, RequestStr)
+            header = self.generate_headers(API_SIGNATURE)
+            url = self.HOST_BASE_URL + RequestMethod
+            response = requests.get(url, headers=header, timeout=10)
+            response_dict = response.json()
+        
+            return response_dict
+        except requests.exceptions.RequestException as e:
+            print("Произошла ошибка при выполнении запроса:", e)
+
+            return None
+
 
 #print(YPMNApi.__doc__)
