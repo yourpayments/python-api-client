@@ -3,14 +3,14 @@
 
 ## Версия Альфа v1.0
 1) Файл ypmn_classes_general_function.py структура следующая:
--Функция расчета подписи (calc_signature)
--Функция генерации заголовка запроса (generate_headers)
--Функция отправки запроса на авторизацию (request_authorize)
--Функция отправки запроса на создание токена (request_create_token)
--Функция отправки запроса на возврат ДС (request_refunds)
--Функция отправки запроса на списание (request_capture)
--Функция отправки запроса статуса (request_status)
--Функция отправки запроса на выплату (request_payout)
+- Функция расчета подписи (calc_signature)
+- Функция генерации заголовка запроса (generate_headers)
+- Функция отправки запроса на авторизацию (request_authorize)
+- Функция отправки запроса на создание токена (request_create_token)
+- Функция отправки запроса на возврат ДС (request_refunds)
+- Функция отправки запроса на списание (request_capture)
+- Функция отправки запроса статуса (request_status)
+- Функция отправки запроса на выплату (request_payout)
 
 
 2) Файл ypmn_classes_authorisation.py :
