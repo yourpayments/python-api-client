@@ -2,7 +2,7 @@
 ![](https://repository-images.githubusercontent.com/638835276/ff494b04-d65b-4843-8759-e85c689a7e80)
 
 ## Версия Альфа v1.0
-1) Файл ypmn_classes_general_function.py структура следующая:
+1) Файл ![ypmn_classes_general_function.py](https://repository-images.githubusercontent.com/638835276/ff494b04-d65b-4843-8759-e85c689a7e80) структура следующая:
 - Функция расчета подписи (calc_signature)
 - Функция генерации заголовка запроса (generate_headers)
 - Функция отправки запроса на авторизацию (request_authorize)
