@@ -4,9 +4,6 @@
 ## Версия Альфа v1.0
 <<<<<<< HEAD
 1) Файл [ypmn_classes_general_function.py](https://github.com/yourpayments/python-api-client/blob/main/ypmn_classes_general_function.py) структура следующая:
-=======
-1) Файл ![ypmn_classes_general_function.py](https://github.com/yourpayments/python-api-client/blob/main/ypmn_classes_general_function.py) структура следующая:
->>>>>>> 3058f2dbf3987f3b87dff1d328222e8a41552b3c
 - Функция расчета подписи (calc_signature)
 - Функция генерации заголовка запроса (generate_headers)
 - Функция отправки запроса на авторизацию (request_authorize)
