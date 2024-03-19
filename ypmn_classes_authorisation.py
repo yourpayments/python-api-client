@@ -20,8 +20,6 @@ class AuthorizationFP:
         
         self.payment_method = payment_method
 
-    def display_info(self):
-        print(self)
 
     def to_dict(self):
         auth_card_dict = {
@@ -46,7 +44,6 @@ class CardDetails:
     number: str
     owner: str
 
-
     def __init__(
             self, 
             cvv: str = "", 
@@ -60,10 +57,6 @@ class CardDetails:
         self.expiry_year = expiry_year
         self.number = number
         self.owner = owner
-        
-    
-    def display_info(self):
-        print(self)
     
     
     def to_dict(self):
@@ -98,8 +91,6 @@ class AuthorizationCard:
         self.card_details = card_details if card_details is not None else CardDetails()
         self.payment_method = payment_method
 
-    def display_info(self):
-        print(self)
 
     def to_dict(self):
         auth_card_dict = {
@@ -127,6 +118,7 @@ class paymentPageOptions:
             ) -> None:
 
         self.order_timeout = order_timeout
+
 
     def to_dict(self):
         pp_options_dict = {
@@ -161,8 +153,6 @@ class AuthorizationPP:
         self.use_paymen_page = use_paymen_page
         self.payment_method = payment_method
 
-    def display_info(self):
-        print(self)
 
     def to_dict(self):
         auth_pp_dict = {
@@ -198,8 +188,6 @@ class merchantToken:
         self.cvv = cvv
         self.owner = owner
 
-    def display_info(self):
-        print(self)
 
     def to_dict(self):
         merchant_token_dict = {
@@ -232,8 +220,6 @@ class AuthorizationToken:
         self.merch_token = merch_token if merch_token is not None else merchantToken().to_dict()
         self.payment_method = payment_method
 
-    def display_info(self):
-        print(self)
 
     def to_dict(self):
         auth_token_dict = {
@@ -267,8 +253,6 @@ class IdentityDocument:
         self.number = number
         self.type = type
 
-    def display_info(self):
-        print(self)
 
     def to_dict(self):
         identity_document_dict = {
@@ -340,8 +324,6 @@ class Billing:
         self.tax_id = tax_id
         self.zip_code = zip_code
 
-    def display_info(self):
-        print(self)
 
     def to_dict(self):
         billing_dict = {
@@ -413,8 +395,6 @@ class Delivery:
         self.state = state
         self.zip_code = zip_code
 
-    def display_info(self):
-        print(self)
 
     def to_dict(self):
         delivery_dict = {
@@ -461,8 +441,6 @@ class Client:
         self.client_time = client_time
         self.delivery = delivery if delivery is not None else Delivery()
 
-    def display_info(self):
-        print(self)
 
     def to_dict(self):
         client_dict = {
@@ -509,8 +487,6 @@ class Product:
         self.sku = sku
         self.unit_price = unit_price
 
-    def display_info(self):
-        print(self)
 
     def to_dict(self):
         product_dict = {
@@ -553,8 +529,6 @@ class AuthRequest:
         self.merchant_payment_reference = merchant_payment_reference
         self.products = products
 
-    def display_info(self):
-        print(self)
 
     def to_dict(self):
         auth_request_dict = {

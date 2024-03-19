@@ -8,7 +8,9 @@ with open('configs.json', 'r') as file:
 
 class Amount:
 
-
+    """
+    Класс создающий блок amount, необходим для генерации тела запроса на выплату
+    """
 
     value: float
     
@@ -19,6 +21,7 @@ class Amount:
             ) -> None:
         
         self.value = value
+    
     
     def to_dict(self):
         amount_dict = {
@@ -31,7 +34,9 @@ class Amount:
 
 class Card:
 
-
+    """
+    Класс создающий блок card, необходим для генерации тела запроса на выплату с использованием карточных данных
+    """
 
     card_number: str
 
@@ -43,6 +48,7 @@ class Card:
         
         self.card_number = card_number
     
+    
     def to_dict(self):
         card_dict = {
             "cardNumber": self.card_number
@@ -52,6 +58,9 @@ class Card:
     
 class Token:
 
+    """
+    Класс создающий блок token, необходим для генерации тела запроса на выплату с использованием токена
+    """
 
     token_hash: str
 
@@ -63,6 +72,7 @@ class Token:
         
         self.token_hash = token_hash
     
+
     def to_dict(self):
         token_dict = {
             "tokenHash": self.token_hash
@@ -73,7 +83,9 @@ class Token:
 
 class Recipient:
 
-
+    """
+    Класс создающий блок recipient, необходим для генерации тела запроса на выплату с использованием токена
+    """
 
     type: str
     email: str
@@ -103,6 +115,7 @@ class Recipient:
         self.first_name = first_name
         self.last_name = last_name
 
+
     def to_dict(self):
         recipient_dict = {
             "type": self.type,
@@ -120,7 +133,9 @@ class Recipient:
 
 class Destination:
 
-
+    """
+    Класс создающий блок destination, необходим для генерации тела запроса на выплату с использованием токена
+    """
 
     card: Card
     recipient: Recipient
@@ -136,6 +151,7 @@ class Destination:
         self.card = Card
         self.recipient = Recipient
 
+
     def to_dict(self):
         destination_dict = {
             "type": "card",
@@ -148,7 +164,9 @@ class Destination:
 
 class DestinationToken:
 
-
+    """
+    Класс создающий блок destinationToken, необходим для генерации тела запроса на выплату с использованием токена
+    """
 
     token: Token
     recipient: Recipient
@@ -164,6 +182,7 @@ class DestinationToken:
         self.token = Token
         self.recipient = Recipient
 
+
     def to_dict(self):
         destination_token_dict = {
             "type": "token",
@@ -176,7 +195,9 @@ class DestinationToken:
 
 class Sender:
 
-
+    """
+    Класс создающий блок sender, необходим для генерации тела запроса на выплату с использованием токена
+    """
 
     first_name: str
     last_name: str
@@ -196,6 +217,7 @@ class Sender:
         self.last_name = last_name
         self.email = email
         self.phone = phone
+
 
     def to_dict(self):
         sender_dict = {
@@ -225,6 +247,7 @@ class Source:
             ) -> None:
         
         self.sender = Sender
+
 
     def to_dict(self):
         source_dict = {
@@ -262,7 +285,6 @@ class PayoutRequest:
         self.description = description
         self.destination = Destination
         self.source = Source
-
 
 
     def to_dict(self):

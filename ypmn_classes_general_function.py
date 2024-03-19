@@ -134,6 +134,11 @@ class YPMNApi:
             url = self.HOST_BASE_URL + RequestMethod
             response = requests.post(url, data=body, headers=header, timeout=10)
             response_dict = response.json()
+
+            # Очищаем и записываем ответ API в JSON-файл
+            with open('ypmn_api_response.json', 'w') as file:
+                file.write('')
+                json.dump(response_dict, file, indent=4)
         
             return response_dict
         except requests.exceptions.RequestException as e:
@@ -153,6 +158,11 @@ class YPMNApi:
             url = self.HOST_BASE_URL + RequestMethod
             response = requests.post(url, data=body, headers=header, timeout=10)
             response_dict = response.json()
+
+            # Очищаем и записываем ответ API в JSON-файл
+            with open('ypmn_api_response.json', 'w') as file:
+                file.write('')
+                json.dump(response_dict, file, indent=4)
         
             return response_dict
         except requests.exceptions.RequestException as e:
@@ -172,6 +182,11 @@ class YPMNApi:
             url = self.HOST_BASE_URL + RequestMethod
             response = requests.post(url, data=body, headers=header, timeout=10)
             response_dict = response.json()
+
+            # Очищаем и записываем ответ API в JSON-файл
+            with open('ypmn_api_response.json', 'w') as file:
+                file.write('')
+                json.dump(response_dict, file, indent=4)
         
             return response_dict
         except requests.exceptions.RequestException as e:
@@ -194,6 +209,11 @@ class YPMNApi:
             url = self.HOST_BASE_URL + RequestMethod
             response = requests.post(url, data=body, headers=header, timeout=10)
             response_dict = response.json()
+
+            # Очищаем и записываем ответ API в JSON-файл
+            with open('ypmn_api_response.json', 'w') as file:
+                file.write('')
+                json.dump(response_dict, file, indent=4)
         
             return response_dict
         except requests.exceptions.RequestException as e:
@@ -214,6 +234,11 @@ class YPMNApi:
             url = self.HOST_BASE_URL + RequestMethod
             response = requests.get(url, headers=header, timeout=10)
             response_dict = response.json()
+
+            # Очищаем и записываем ответ API в JSON-файл
+            with open('ypmn_api_response.json', 'w') as file:
+                file.write('')
+                json.dump(response_dict, file, indent=4)
         
             return response_dict
         except requests.exceptions.RequestException as e:
@@ -222,7 +247,7 @@ class YPMNApi:
             return None
         
 
-        ##отправка запроса на удаление токена
+    ##отправка запроса на удаление токена
     def request_cancel_token(self, token_hash):
         try:
             body = ""
@@ -234,6 +259,11 @@ class YPMNApi:
             url = self.HOST_BASE_URL + RequestMethod
             response = requests.delete(url, headers=header, timeout=10)
             response_dict = response.json()
+
+            # Очищаем и записываем ответ API в JSON-файл
+            with open('ypmn_api_response.json', 'w') as file:
+                file.write('')
+                json.dump(response_dict, file, indent=4)
         
             return response_dict
         except requests.exceptions.RequestException as e:
@@ -242,6 +272,7 @@ class YPMNApi:
             return None
     
 
+    ##отправка запроса на получение информации по токену
     def request_token_info(self, token_hash):
         try:
             body = ""
@@ -253,6 +284,11 @@ class YPMNApi:
             url = self.HOST_BASE_URL + RequestMethod
             response = requests.get(url, headers=header, timeout=10)
             response_dict = response.json()
+
+            # Очищаем и записываем ответ API в JSON-файл
+            with open('ypmn_api_response.json', 'w') as file:
+                file.write('')
+                json.dump(response_dict, file, indent=4)
         
             return response_dict
         except requests.exceptions.RequestException as e:

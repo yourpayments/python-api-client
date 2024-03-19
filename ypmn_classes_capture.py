@@ -30,11 +30,6 @@ class CaptureRequest:
         self.original_amount = originalAmount
         self.amount = amount
 
-    def display_info(self):
-        print(self)
-
-
-
 
     def to_dict(self):
         return {
