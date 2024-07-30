@@ -15,7 +15,7 @@
 ##### 3. Возврат
 1. [Возврат по сумме](https://github.com/yourpayments/python-api-client/blob/main/Examples_requests/ypmn_refund_example.py)
 
-##### 5. Запрос статуса
+##### 4. Запрос статуса
 1. [Запрос статуса](https://github.com/yourpayments/python-api-client/blob/main/Examples_requests/ypmn_get_status_example.py)
 
 ##### 5. Токенизация
