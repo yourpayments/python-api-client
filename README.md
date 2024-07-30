@@ -1,7 +1,7 @@
 # «Твои Платежи»: Интеграция на Python
 ![](https://repository-images.githubusercontent.com/638835276/2067d028-b541-4355-b069-3c12c8a28042)
  
-## Классическая схема эквайринга:
+## Примеры с комментариями:
 
 ##### 1. Авторизация
 1. [Авторизация с предоставлением платежной страницы](https://github.com/yourpayments/python-api-client/blob/main/Examples_requests/ypmn_authorize_pp_example.py)
